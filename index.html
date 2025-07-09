@@ -244,12 +244,16 @@
     tbody.innerHTML = '';
     select.innerHTML = '';
 
-    inventario.forEach(item => {
+    inventario.forEach((item, index) => {
       tbody.insertAdjacentHTML('beforeend', `
         <tr>
           <td>${item.nombre}</td>
           <td>$${item.precio.toFixed(2)}</td>
           <td>${item.stock.toFixed(2)} kg</td>
+          <td>
+            <button onclick="editarProducto(${index})">✏️ Editar</button>
+            <button onclick="eliminarProducto(${index})">🗑️ Eliminar</button>
+          </td>
         </tr>
       `);
       const option = document.createElement('option');
@@ -354,6 +358,37 @@
     document.getElementById('nuevoPrecio').value = '';
     document.getElementById('nuevoStock').value = '';
     alert(`✅ Producto "${nombre}" agregado al inventario.`);
+  }
+
+  function editarProducto(index) {
+    const producto = inventario[index];
+    const nuevoNombre = prompt("Nombre del producto:", producto.nombre);
+    const nuevoPrecio = parseFloat(prompt("Precio por kg:", producto.precio));
+    const nuevoStock = parseFloat(prompt("Stock en kg:", producto.stock));
+
+    if (!nuevoNombre || isNaN(nuevoPrecio) || nuevoPrecio <= 0 || isNaN(nuevoStock) || nuevoStock < 0) {
+      alert("❗ Entrada no válida. No se realizaron cambios.");
+      return;
+    }
+
+    inventario[index] = {
+      nombre: nuevoNombre.trim(),
+      precio: nuevoPrecio,
+      stock: nuevoStock
+    };
+
+    guardarLocal();
+    actualizarInventario();
+    alert(`✅ Producto actualizado: ${nuevoNombre}`);
+  }
+
+  function eliminarProducto(index) {
+    if (confirm(`¿Seguro que quieres eliminar "${inventario[index].nombre}" del inventario?`)) {
+      inventario.splice(index, 1);
+      guardarLocal();
+      actualizarInventario();
+      alert(`🗑️ Producto eliminado.`);
+    }
   }
 
   function simularBascula() {
