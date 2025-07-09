@@ -201,6 +201,8 @@
     <section>
       <h2>📜 Historial de Ventas</h2>
       <ul id="historial"></ul>
+      <div class="total" id="totalVentasDelDia">Total del día: $0.00</div>
+
     </section>
 
     <section>
@@ -330,15 +332,21 @@
 
     alert(`✅ Venta completada por ${formatoMoneda.format(totalVenta)}`);
   }
+function mostrarHistorial() {
+  const historialUl = document.getElementById('historial');
+  const totalVentasDelDia = document.getElementById('totalVentasDelDia');
+  historialUl.innerHTML = '';
 
-  function mostrarHistorial() {
-    const historialUl = document.getElementById('historial');
-    historialUl.innerHTML = '';
-    historial.forEach(v => {
-      const li = document.createElement('li');
-      li.textContent = `${v.fecha} - Total: ${formatoMoneda.format(v.total)}`;
-      historialUl.appendChild(li);
-    });
+  let total = 0;
+  historial.forEach(v => {
+    const li = document.createElement('li');
+    const ventaTotal = parseFloat(v.total);
+    li.textContent = `${v.fecha} - Total: ${formatoMoneda.format(ventaTotal)}`;
+    historialUl.appendChild(li);
+    total += ventaTotal;
+  });
+
+  totalVentasDelDia.textContent = `🧮 Total del día: ${formatoMoneda.format(total)}`;
   }
 
   function agregarProductoInventario() {
