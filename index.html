@@ -59,57 +59,25 @@
       height: calc(100vh - 70px);
     }
 
-    .sidebar {
+    aside {
       width: 280px;
       background-color: var(--tarjeta);
       border-right: 1px solid #ddd;
       box-shadow: 2px 0 5px var(--sombra);
       padding: 1rem;
       overflow-y: auto;
-      transition: transform 0.3s ease;
     }
 
-    .sidebar.hidden {
-      transform: translateX(-100%);
-    }
-
-    .sidebar h2 {
-      margin-top: 0;
+    aside h2 {
       color: var(--verde-oscuro);
-    }
-
-    .sidebar input {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    .sidebar button {
-      margin-bottom: 1rem;
-      width: 100%;
-      background-color: var(--verde-claro);
-      color: #fff;
-      border: none;
-      padding: 0.6rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .sidebar button:hover {
-      background-color: var(--verde-hover);
     }
 
     .content {
       flex: 1;
       padding: 2rem;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 2rem;
-      justify-content: center;
       overflow-y: auto;
     }
 
@@ -117,23 +85,14 @@
       background-color: var(--tarjeta);
       border-radius: 16px;
       box-shadow: 0 4px 8px var(--sombra);
-      max-width: 400px;
-      flex: 1 1 300px;
-      display: flex;
-      flex-direction: column;
+      max-width: 100%;
       padding: 1.5rem;
-      gap: 1rem;
       transition: transform 0.2s;
     }
 
-    .tarjeta:hover {
-      transform: translateY(-2px);
-    }
-
     .tarjeta h2 {
-      margin: 0;
+      margin-top: 0;
       color: var(--verde-oscuro);
-      font-size: 1.3rem;
     }
 
     table {
@@ -150,7 +109,6 @@
       padding: 0.5rem;
       border: 1px solid #ddd;
       text-align: left;
-      font-size: 0.95rem;
     }
 
     .acciones-btn {
@@ -179,27 +137,39 @@
       margin-top: 0.5rem;
     }
 
+    .input-codigo {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .input-codigo input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .input-codigo button {
+      background-color: var(--verde-claro);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .input-codigo button:hover {
+      background-color: var(--verde-hover);
+    }
+
     footer {
       text-align: center;
       padding: 1rem;
       background-color: #eee;
       font-size: 0.9rem;
-    }
-
-    .toggle-sidebar {
-      background-color: var(--verde-claro);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      margin-right: 1rem;
-      transition: background 0.3s;
-    }
-
-    .toggle-sidebar:hover {
-      background-color: var(--verde-hover);
     }
 
     body.dark {
@@ -215,29 +185,33 @@
 </head>
 <body>
   <header>
-    <div>
-      <button class="toggle-sidebar" id="btnToggleSidebar">📦 Inventario</button>
-      <h1>Fruver Plaza POS Pro</h1>
-    </div>
+    <h1>🌿 Fruver Plaza POS Pro</h1>
     <button id="toggleModo">🌙 Modo Oscuro</button>
   </header>
 
   <div class="container">
-    <aside class="sidebar hidden" id="sidebar">
+    <aside>
+      <h2>🧾 Historial de Ventas</h2>
+      <ul id="historialVentas"></ul>
+      <div class="total-dia" id="totalDia">Total del día: $0</div>
+      <hr>
       <h2>📦 Inventario</h2>
-      <input type="text" id="buscador" placeholder="🔍 Buscar producto">
+      <button id="btnAgregarProducto">➕ Agregar Producto</button>
       <table>
         <thead>
           <tr><th>Código</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
         </thead>
         <tbody id="inventario"></tbody>
       </table>
-      <button id="btnAgregarProducto">➕ Agregar Producto</button>
     </aside>
 
     <main class="content">
       <section class="tarjeta">
         <h2>🛒 Carrito</h2>
+        <div class="input-codigo">
+          <input type="text" id="codigoBusqueda" placeholder="🔍 Código del producto">
+          <button id="btnAgregarPorCodigo">➕ Agregar por Código</button>
+        </div>
         <table>
           <thead>
             <tr><th>Producto</th><th>Peso (kg)</th><th>Precio</th><th>Subtotal</th></tr>
@@ -246,12 +220,6 @@
         </table>
         <div class="total" id="totalCarrito">Total: $0</div>
         <button id="btnFinalizarVenta">✅ Finalizar Venta</button>
-      </section>
-
-      <section class="tarjeta">
-        <h2>🧾 Historial de Ventas</h2>
-        <ul id="historialVentas"></ul>
-        <div class="total-dia" id="totalDia">Total del día: $0</div>
       </section>
     </main>
   </div>
@@ -264,11 +232,6 @@
     let inventario = JSON.parse(localStorage.getItem('inventario')) || [];
     let carrito = [];
     let historial = JSON.parse(localStorage.getItem('historial')) || [];
-
-    const sidebar = document.getElementById('sidebar');
-    document.getElementById('btnToggleSidebar').addEventListener('click', () => {
-      sidebar.classList.toggle('hidden');
-    });
 
     function guardarInventario() {
       localStorage.setItem('inventario', JSON.stringify(inventario));
@@ -291,7 +254,6 @@
           <td class="acciones-btn">
             <button onclick="editarProducto(${index})">✏️</button>
             <button onclick="eliminarProducto(${index})">🗑️</button>
-            <button onclick="agregarAlCarrito(${index})">🛒</button>
           </td>`;
         tbody.appendChild(row);
       });
@@ -318,12 +280,10 @@
     }
 
     function eliminarDelCarrito(index) {
-      if (confirm("¿Estás seguro de eliminar este producto del carrito?")) {
-        const itemEliminado = carrito[index];
-        const productoOriginal = inventario.find(p => p.nombre === itemEliminado.nombre);
-        if (productoOriginal) {
-          productoOriginal.stock += itemEliminado.peso;
-        }
+      if (confirm("¿Eliminar este producto del carrito?")) {
+        const item = carrito[index];
+        const original = inventario.find(p => p.nombre === item.nombre);
+        if (original) original.stock += item.peso;
         carrito.splice(index, 1);
         actualizarCarrito();
         actualizarInventario();
@@ -379,14 +339,20 @@
       }
     }
 
-    function agregarAlCarrito(index) {
-      const item = inventario[index];
-      const peso = parseFloat(prompt(`Peso (kg) para ${item.nombre}:`));
-      if (!isNaN(peso) && peso > 0 && peso <= item.stock) {
-        carrito.push({ nombre: item.nombre, peso, precio: item.precio });
-        item.stock -= peso;
+    function agregarAlCarritoPorCodigo() {
+      const codigoInput = document.getElementById('codigoBusqueda').value.trim();
+      if (!codigoInput) return alert('Ingresa un código válido.');
+
+      const producto = inventario.find(p => p.codigo === codigoInput);
+      if (!producto) return alert('Producto no encontrado.');
+
+      const peso = parseFloat(prompt(`Peso (kg) para ${producto.nombre}:`));
+      if (!isNaN(peso) && peso > 0 && peso <= producto.stock) {
+        carrito.push({ nombre: producto.nombre, peso, precio: producto.precio });
+        producto.stock -= peso;
         actualizarInventario();
         actualizarCarrito();
+        document.getElementById('codigoBusqueda').value = '';
       } else {
         alert('Peso inválido o mayor al stock.');
       }
@@ -409,16 +375,10 @@
 
     document.getElementById('btnAgregarProducto').addEventListener('click', agregarProducto);
     document.getElementById('btnFinalizarVenta').addEventListener('click', finalizarVenta);
+    document.getElementById('btnAgregarPorCodigo').addEventListener('click', agregarAlCarritoPorCodigo);
     document.getElementById('toggleModo').addEventListener('click', () => {
       document.body.classList.toggle('dark');
       localStorage.setItem('modoOscuro', document.body.classList.contains('dark'));
-    });
-
-    document.getElementById('buscador').addEventListener('input', e => {
-      const filtro = e.target.value.toLowerCase();
-      document.querySelectorAll('#inventario tr').forEach(row => {
-        row.style.display = row.cells[1].textContent.toLowerCase().includes(filtro) ? '' : 'none';
-      });
     });
 
     if (localStorage.getItem('modoOscuro') === 'true') {
