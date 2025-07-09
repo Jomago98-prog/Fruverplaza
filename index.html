@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>POS Futuro - Mejor que SAEC 4.3</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f2f2f2;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1rem;
+      gap: 1rem;
+    }
+    section {
+      background: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex: 1 1 300px;
+    }
+    h2 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    input, button, select {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+      border: 1px solid #ccc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    .total {
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 0.5rem;
+    }
+    .button-primary {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .button-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Sistema POS Futuro 🚀
+  </header>
+  <main>
+    <section>
+      <h2>Agregar Producto</h2>
+      <input type="text" id="producto" placeholder="Nombre del producto" />
+      <input type="number" id="precio" placeholder="Precio unitario" />
+      <input type="number" id="peso" placeholder="Peso (kg)" />
+      <button class="button-primary" onclick="agregarProducto()">Agregar al Carrito</button>
+      <button onclick="simularBascula()">📦 Simular Báscula</button>
+    </section>
+
+    <section>
+      <h2>Carrito de Compras</h2>
+      <table id="carritoTabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Peso</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="total" id="total">Total: $0.00</div>
+      <button class="button-primary" onclick="finalizarVenta()">💰 Finalizar Venta</button>
+    </section>
+
+    <section>
+      <h2>Historial de Ventas</h2>
+      <ul id="historial"></ul>
+    </section>
+  </main>
+
+  <script>
+    let carrito = [];
+    let historial = [];
+
+    function agregarProducto() {
+      const producto = document.getElementById('producto').value.trim();
+      const precio = parseFloat(document.getElementById('precio').value);
+      const peso = parseFloat(document.getElementById('peso').value);
+
+      if (!producto || isNaN(precio) || isNaN(peso)) {
+        alert('Completa todos los campos.');
+        return;
+      }
+
+      const subtotal = precio * peso;
+      carrito.push({ producto, precio, peso, subtotal });
+      actualizarCarrito();
+      limpiarFormulario();
+    }
+
+    function actualizarCarrito() {
+      const tbody = document.querySelector('#carritoTabla tbody');
+      tbody.innerHTML = '';
+
+      let total = 0;
+      carrito.forEach(item => {
+        total += item.subtotal;
+        const row = `<tr>
+          <td>${item.producto}</td>
+          <td>${item.peso.toFixed(2)} kg</td>
+          <td>$${item.precio.toFixed(2)}</td>
+          <td>$${item.subtotal.toFixed(2)}</td>
+        </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+
+      document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+    }
+
+    function limpiarFormulario() {
+      document.getElementById('producto').value = '';
+      document.getElementById('precio').value = '';
+      document.getElementById('peso').value = '';
+    }
+
+    function finalizarVenta() {
+      if (carrito.length === 0) {
+        alert('El carrito está vacío.');
+        return;
+      }
+
+      const totalVenta = carrito.reduce((sum, item) => sum + item.subtotal, 0);
+      const venta = { fecha: new Date().toLocaleString(), total: totalVenta.toFixed(2), items: carrito.slice() };
+      historial.push(venta);
+
+      carrito = [];
+      actualizarCarrito();
+      mostrarHistorial();
+
+      alert(`Venta completada. Total: $${totalVenta.toFixed(2)}`);
+    }
+
+    function mostrarHistorial() {
+      const historialUl = document.getElementById('historial');
+      historialUl.innerHTML = '';
+      historial.forEach(v => {
+        const li = document.createElement('li');
+        li.textContent = `${v.fecha} - Total: $${v.total}`;
+        historialUl.appendChild(li);
+      });
+    }
+
+    function simularBascula() {
+      const pesoAleatorio = (Math.random() * 5 + 0.2).toFixed(2);
+      document.getElementById('peso').value = pesoAleatorio;
+      alert(`Simulado: Báscula envía ${pesoAleatorio} kg`);
+    }
+  </script>
+</body>
+</html>
