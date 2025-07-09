@@ -5,6 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🌿 Mi Tienda POS Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🌿 Mi Tienda POS Pro</h1>
+    <button id="toggleModo">🌙 Modo Oscuro</button>
+  </header>
+
+  <main>
+    <section class="tarjeta">
+      <h2>📦 Inventario</h2>
+      <input type="text" id="buscador" placeholder="🔍 Buscar producto">
+      <table>
+        <thead>
+          <tr><th>Producto</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+        </thead>
+        <tbody id="inventario"></tbody>
+      </table>
+      <button id="btnAgregarProducto">➕ Agregar Producto</button>
+    </section>
+
+    <section class="tarjeta">
+      <h2>🛒 Carrito</h2>
+      <table>
+        <thead>
+          <tr><th>Producto</th><th>Peso (kg)</th><th>Precio</th><th>Subtotal</th></tr>
+        </thead>
+        <tbody id="carrito"></tbody>
+      </table>
+      <div class="total" id="totalCarrito">Total: $0</div>
+      <button id="btnFinalizarVenta">✅ Finalizar Venta</button>
+    </section>
+
+    <section class="tarjeta">
+      <h2>🧾 Historial de Ventas</h2>
+      <ul id="historialVentas"></ul>
+      <div class="total-dia" id="totalDia">Total del día: $0</div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Mi Tienda POS v1.0 — Hecho con 💚 en Colombia</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌿 Mi Tienda POS Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --verde-oscuro: #006400;
@@ -277,3 +331,147 @@
   </script>
 </body>
 </html>
+// 🌿 Datos en LocalStorage
+let inventario = JSON.parse(localStorage.getItem('inventario')) || [];
+let carrito = [];
+let historial = JSON.parse(localStorage.getItem('historial')) || [];
+
+function guardarInventario() {
+  localStorage.setItem('inventario', JSON.stringify(inventario));
+}
+
+function guardarHistorial() {
+  localStorage.setItem('historial', JSON.stringify(historial));
+}
+
+function actualizarInventario() {
+  const tbody = document.getElementById('inventario');
+  tbody.innerHTML = '';
+  inventario.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.nombre}</td>
+      <td>$${item.precio.toLocaleString()}</td>
+      <td>${item.stock}kg</td>
+      <td class="acciones-btn">
+        <button onclick="editarProducto(${index})">✏️</button>
+        <button onclick="eliminarProducto(${index})">🗑️</button>
+        <button onclick="agregarAlCarrito(${index})">🛒</button>
+      </td>`;
+    tbody.appendChild(row);
+  });
+  guardarInventario();
+}
+
+function actualizarCarrito() {
+  const tbody = document.getElementById('carrito');
+  tbody.innerHTML = '';
+  let total = 0;
+  carrito.forEach((item, index) => {
+    const subtotal = item.peso * item.precio;
+    total += subtotal;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.nombre}</td>
+      <td>${item.peso}kg</td>
+      <td>$${item.precio.toLocaleString()}</td>
+      <td>$${subtotal.toLocaleString()}</td>`;
+    tbody.appendChild(row);
+  });
+  document.getElementById('totalCarrito').textContent = `Total: $${total.toLocaleString()}`;
+}
+
+function actualizarHistorial() {
+  const ul = document.getElementById('historialVentas');
+  ul.innerHTML = '';
+  let totalDia = 0;
+  historial.forEach(v => {
+    totalDia += v.total;
+    const li = document.createElement('li');
+    li.textContent = `${v.fecha} - Total: $${v.total.toLocaleString()}`;
+    ul.appendChild(li);
+  });
+  document.getElementById('totalDia').textContent = `Total del día: $${totalDia.toLocaleString()}`;
+}
+
+function agregarProducto() {
+  const nombre = prompt('Nombre del producto:');
+  const precio = parseFloat(prompt('Precio por kg:'));
+  const stock = parseFloat(prompt('Stock en kg:'));
+  if (nombre && !isNaN(precio) && !isNaN(stock)) {
+    inventario.push({ nombre, precio, stock });
+    actualizarInventario();
+  }
+}
+
+function editarProducto(index) {
+  const item = inventario[index];
+  const nombre = prompt('Nuevo nombre:', item.nombre);
+  const precio = parseFloat(prompt('Nuevo precio por kg:', item.precio));
+  const stock = parseFloat(prompt('Nuevo stock en kg:', item.stock));
+  if (nombre && !isNaN(precio) && !isNaN(stock)) {
+    inventario[index] = { nombre, precio, stock };
+    actualizarInventario();
+  }
+}
+
+function eliminarProducto(index) {
+  if (confirm('¿Eliminar producto?')) {
+    inventario.splice(index, 1);
+    actualizarInventario();
+  }
+}
+
+function agregarAlCarrito(index) {
+  const item = inventario[index];
+  const peso = parseFloat(prompt(`Peso (kg) para ${item.nombre}:`));
+  if (!isNaN(peso) && peso > 0 && peso <= item.stock) {
+    carrito.push({ nombre: item.nombre, peso, precio: item.precio });
+    item.stock -= peso;
+    actualizarInventario();
+    actualizarCarrito();
+  } else {
+    alert('Peso inválido o mayor al stock.');
+  }
+}
+
+function finalizarVenta() {
+  if (carrito.length === 0) {
+    alert('El carrito está vacío.');
+    return;
+  }
+  const total = carrito.reduce((sum, item) => sum + item.peso * item.precio, 0);
+  const fecha = new Date().toLocaleDateString();
+  historial.push({ fecha, total });
+  guardarHistorial();
+  carrito = [];
+  actualizarCarrito();
+  actualizarHistorial();
+  alert(`Venta registrada por $${total.toLocaleString()}`);
+}
+
+// Eventos
+document.getElementById('btnAgregarProducto').addEventListener('click', agregarProducto);
+document.getElementById('btnFinalizarVenta').addEventListener('click', finalizarVenta);
+document.getElementById('toggleModo').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('modoOscuro', document.body.classList.contains('dark'));
+});
+
+// Buscador
+document.getElementById('buscador').addEventListener('input', e => {
+  const filtro = e.target.value.toLowerCase();
+  document.querySelectorAll('#inventario tr').forEach(row => {
+    row.style.display = row.cells[0].textContent.toLowerCase().includes(filtro) ? '' : 'none';
+  });
+});
+
+// Cargar modo oscuro
+if (localStorage.getItem('modoOscuro') === 'true') {
+  document.body.classList.add('dark');
+}
+
+// Inicial
+actualizarInventario();
+actualizarCarrito();
+actualizarHistorial();
