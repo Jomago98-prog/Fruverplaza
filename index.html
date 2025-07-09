@@ -251,8 +251,7 @@
       });
       guardarInventario();
     }
-
-   function actualizarCarrito() {
+function actualizarCarrito() {
   const tbody = document.getElementById('carrito');
   tbody.innerHTML = '';
   let total = 0;
@@ -270,9 +269,7 @@
   });
   document.getElementById('totalCarrito').textContent = `Total: $${total.toLocaleString()}`;
 }
-
-
-    function actualizarHistorial() {
+ function actualizarHistorial() {
       const ul = document.getElementById('historialVentas');
       ul.innerHTML = '';
       let totalDia = 0;
