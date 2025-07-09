@@ -1,166 +1,159 @@
-<head>
-  <meta charset="UTF-8" />
-  <title>POS Verde Premium 🌿</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --verde: #28a745;
-      --verde-claro: #a9dfbf;
-      --verde-hover: #218838;
-      --gris-fondo: #f5f7f6;
-      --gris-card: #ffffff;
-      --gris-texto: #333333;
-      --sombra: rgba(0, 0, 0, 0.08);
-      --borde: #e1e1e1;
-    }
+<style>
+  :root {
+    --verde: #28a745;
+    --verde-claro: #a9dfbf;
+    --verde-hover: #218838;
+    --gris-fondo: #f5f7f6;
+    --gris-card: #ffffff;
+    --gris-texto: #333333;
+    --sombra: rgba(0, 0, 0, 0.08);
+    --borde: #e1e1e1;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
+  * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: var(--gris-fondo);
-      color: var(--gris-texto);
-    }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--gris-fondo);
+    color: var(--gris-texto);
+  }
 
-    header {
-      background-color: var(--verde);
-      color: white;
-      padding: 1rem 2rem;
-      font-size: 1.8rem;
-      text-align: center;
-      font-weight: bold;
-      box-shadow: 0 2px 4px var(--sombra);
-      letter-spacing: 0.5px;
-    }
+  header {
+    background-color: var(--verde);
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px var(--sombra);
+    letter-spacing: 0.5px;
+  }
 
-    main {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+  main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-    section {
-      background-color: var(--gris-card);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 8px 16px var(--sombra);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+  section {
+    background-color: var(--gris-card);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 8px 16px var(--sombra);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
 
-    section:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px var(--sombra);
-    }
+  section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px var(--sombra);
+  }
 
-    h2 {
-      margin-top: 0;
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-      color: var(--verde);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      border-bottom: 2px solid var(--verde-claro);
-      padding-bottom: 0.3rem;
-    }
+  h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: var(--verde);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 2px solid var(--verde-claro);
+    padding-bottom: 0.3rem;
+  }
 
-    input, select {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      border: 1px solid var(--borde);
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      background-color: #fafafa;
-      transition: border-color 0.2s;
-    }
+  input, select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--borde);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: #fafafa;
+    transition: border-color 0.2s;
+  }
 
-    input:focus, select:focus {
-      border-color: var(--verde);
-      outline: none;
-    }
+  input:focus, select:focus {
+    border-color: var(--verde);
+    outline: none;
+  }
 
-    button {
-      width: 100%;
-      padding: 0.8rem;
-      background-color: var(--verde);
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: background-color 0.3s, transform 0.2s;
-    }
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s, transform 0.2s;
+  }
 
-    button:hover {
-      background-color: var(--verde-hover);
-      transform: translateY(-1px);
-    }
+  button:hover {
+    background-color: var(--verde-hover);
+    transform: translateY(-1px);
+  }
 
-    button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
-    }
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
 
-    th, td {
-      border: 1px solid var(--borde);
-      padding: 0.7rem;
-      text-align: left;
-    }
+  th, td {
+    border: 1px solid var(--borde);
+    padding: 0.7rem;
+    text-align: left;
+  }
 
-    th {
-      background-color: var(--verde);
-      color: white;
-    }
+  th {
+    background-color: var(--verde);
+    color: white;
+  }
 
-    .total {
-      text-align: right;
-      font-weight: bold;
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      color: var(--verde);
-    }
+  .total {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: var(--verde);
+  }
 
-    ul {
-      padding-left: 1rem;
-    }
+  ul {
+    padding-left: 1rem;
+  }
 
-    li {
-      margin-bottom: 0.5rem;
-    }
+  li {
+    margin-bottom: 0.5rem;
+  }
 
-    .fade-in {
-      animation: fadeIn 0.4s ease-in;
-    }
+  .fade-in {
+    animation: fadeIn 0.4s ease-in;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-    h2::before {
-      content: '🌿';
-      font-size: 1.2rem;
-    }
-  </style>
-</head>
+  h2::before {
+    content: '🌿';
+    font-size: 1.2rem;
+  }
+</style>
 <body>
   <header>
     🌿 Punto de Venta Verde Premium
@@ -208,6 +201,14 @@
     <section>
       <h2>📜 Historial de Ventas</h2>
       <ul id="historial"></ul>
+    </section>
+
+    <section>
+      <h2>➕ Agregar Producto al Inventario</h2>
+      <input type="text" id="nuevoNombre" placeholder="Nombre del producto" />
+      <input type="number" id="nuevoPrecio" placeholder="Precio por kg" step="0.01" />
+      <input type="number" id="nuevoStock" placeholder="Stock inicial (kg)" step="0.01" />
+      <button onclick="agregarProductoInventario()">✅ Guardar Producto</button>
     </section>
   </main>
 <script>
@@ -333,6 +334,26 @@
       li.textContent = `${v.fecha} - Total: $${v.total}`;
       historialUl.appendChild(li);
     });
+  }
+
+  function agregarProductoInventario() {
+    const nombre = document.getElementById('nuevoNombre').value.trim();
+    const precio = parseFloat(document.getElementById('nuevoPrecio').value);
+    const stock = parseFloat(document.getElementById('nuevoStock').value);
+
+    if (!nombre || isNaN(precio) || precio <= 0 || isNaN(stock) || stock <= 0) {
+      alert('Completa todos los campos correctamente.');
+      return;
+    }
+
+    inventario.push({ nombre, precio, stock });
+    guardarLocal();
+    actualizarInventario();
+
+    document.getElementById('nuevoNombre').value = '';
+    document.getElementById('nuevoPrecio').value = '';
+    document.getElementById('nuevoStock').value = '';
+    alert(`✅ Producto "${nombre}" agregado al inventario.`);
   }
 
   function simularBascula() {
