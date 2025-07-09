@@ -1,414 +1,279 @@
-<style>
-  :root {
-    --verde: #28a745;
-    --verde-claro: #a9dfbf;
-    --verde-hover: #218838;
-    --gris-fondo: #f5f7f6;
-    --gris-card: #ffffff;
-    --gris-texto: #333333;
-    --sombra: rgba(0, 0, 0, 0.08);
-    --borde: #e1e1e1;
-  }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌿 Mi Tienda POS Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde-oscuro: #006400;
+      --verde-claro: #4CAF50;
+      --verde-hover: #388e3c;
+      --gris-fondo: #f9f9f9;
+      --texto: #333;
+      --tarjeta: #fff;
+      --sombra: rgba(0, 0, 0, 0.1);
+    }
 
-  * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: var(--gris-fondo);
+      color: var(--texto);
+      transition: background 0.3s, color 0.3s;
+    }
 
-  body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--gris-fondo);
-    color: var(--gris-texto);
-  }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--verde-oscuro);
+      color: #fff;
+      padding: 1rem 2rem;
+    }
 
-  header {
-    background-color: var(--verde);
-    color: white;
-    padding: 1rem 2rem;
-    font-size: 1.8rem;
-    text-align: center;
-    font-weight: bold;
-    box-shadow: 0 2px 4px var(--sombra);
-    letter-spacing: 0.5px;
-  }
+    header h1 {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
 
-  main {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+    header button {
+      background: none;
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
 
-  section {
-    background-color: var(--gris-card);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: 0 8px 16px var(--sombra);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+    header button:hover {
+      background-color: #fff;
+      color: var(--verde-oscuro);
+    }
 
-  section:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px var(--sombra);
-  }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 2rem;
+      justify-content: center;
+    }
 
-  h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-    color: var(--verde);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 2px solid var(--verde-claro);
-    padding-bottom: 0.3rem;
-  }
+    .tarjeta {
+      background-color: var(--tarjeta);
+      border-radius: 16px;
+      box-shadow: 0 4px 8px var(--sombra);
+      max-width: 400px;
+      flex: 1 1 300px;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1rem;
+      transition: transform 0.2s;
+    }
 
-  input, select {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--borde);
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    background-color: #fafafa;
-    transition: border-color 0.2s;
-  }
+    .tarjeta:hover {
+      transform: translateY(-2px);
+    }
 
-  input:focus, select:focus {
-    border-color: var(--verde);
-    outline: none;
-  }
+    .tarjeta h2 {
+      margin: 0;
+      color: var(--verde-oscuro);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-  button {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: var(--verde);
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: background-color 0.3s, transform 0.2s;
-  }
+    input[type="text"], input[type="number"] {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+      transition: border-color 0.3s;
+    }
 
-  button:hover {
-    background-color: var(--verde-hover);
-    transform: translateY(-1px);
-  }
+    input[type="text"]:focus, input[type="number"]:focus {
+      border-color: var(--verde-claro);
+      outline: none;
+    }
 
-  button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-  }
+    thead {
+      background-color: var(--verde-claro);
+      color: #fff;
+    }
 
-  th, td {
-    border: 1px solid var(--borde);
-    padding: 0.7rem;
-    text-align: left;
-  }
+    th, td {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      text-align: left;
+      font-size: 0.95rem;
+    }
 
-  th {
-    background-color: var(--verde);
-    color: white;
-  }
+    button.agregar, button.finalizar {
+      background-color: var(--verde-claro);
+      color: #fff;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background 0.3s;
+    }
 
-  .total {
-    text-align: right;
-    font-weight: bold;
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    color: var(--verde);
-  }
+    button.agregar:hover, button.finalizar:hover {
+      background-color: var(--verde-hover);
+    }
 
-  ul {
-    padding-left: 1rem;
-  }
+    .total, .total-dia {
+      font-weight: bold;
+      text-align: right;
+      color: var(--verde-oscuro);
+      margin-top: 0.5rem;
+    }
 
-  li {
-    margin-bottom: 0.5rem;
-  }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #eee;
+      font-size: 0.9rem;
+    }
 
-  .fade-in {
-    animation: fadeIn 0.4s ease-in;
-  }
+    .acciones-btn {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+    .acciones-btn button {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
 
-  h2::before {
-    content: '🌿';
-    font-size: 1.2rem;
-  }
-</style>
+    .acciones-btn button:hover {
+      background-color: #ddd;
+    }
+
+    /* Modo oscuro */
+    body.dark {
+      --verde-oscuro: #bbf7d0;
+      --verde-claro: #22c55e;
+      --verde-hover: #16a34a;
+      --gris-fondo: #1a1a1a;
+      --texto: #eee;
+      --tarjeta: #2c2c2c;
+      --sombra: rgba(255, 255, 255, 0.1);
+    }
+
+    .modo-svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
 <body>
   <header>
-    🌿 Fruver Plaza
+    <h1>🌿 Mi Tienda POS Pro</h1>
+    <button id="toggleModo">
+      <svg class="modo-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-9h1M3.34 12h1m14.14 5.66l.71.71M4.93 4.93l.71.71M19.07 4.93l-.71.71M4.93 19.07l-.71-.71"></path>
+      </svg>
+      Modo Oscuro
+    </button>
   </header>
+
   <main>
-    <section>
+    <section class="tarjeta">
       <h2>📦 Inventario Disponible</h2>
-      <table id="inventarioTabla">
+      <input type="text" placeholder="🔍 Buscar producto" id="buscador">
+      <table>
         <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Stock (kg)</th>
-          </tr>
+          <tr><th>Producto</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <tr>
+            <td>Manzana</td>
+            <td>$4.500/kg</td>
+            <td>1000kg</td>
+            <td class="acciones-btn">
+              <button>✏️ Editar</button>
+              <button>🗑️ Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Banano</td>
+            <td>$1.500/kg</td>
+            <td>5000kg</td>
+            <td class="acciones-btn">
+              <button>✏️ Editar</button>
+              <button>🗑️ Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
+      <button class="agregar">➕ Agregar Producto</button>
     </section>
 
-    <section>
-      <h2>🛒 Agregar al Carrito</h2>
-      <select id="selectProducto"></select>
-      <input type="number" id="peso" placeholder="Peso (kg)" min="0.01" step="0.01" />
-      <button onclick="agregarAlCarrito()">➕ Agregar</button>
-      <button onclick="simularBascula()">⚖️ Simular Báscula</button>
-    </section>
-
-    <section>
-      <h2>🧾 Carrito Actual</h2>
-      <table id="carritoTabla">
+    <section class="tarjeta">
+      <h2>🛒 Carrito Actual</h2>
+      <table>
         <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Peso</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-          </tr>
+          <tr><th>Producto</th><th>Peso</th><th>Precio</th><th>Subtotal</th></tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <tr>
+            <td>Manzana</td>
+            <td>2kg</td>
+            <td>$4.500</td>
+            <td>$9.000</td>
+          </tr>
+        </tbody>
       </table>
-      <div class="total" id="total">Total: $0.00</div>
-      <button onclick="finalizarVenta()">💰 Finalizar Venta</button>
+      <div class="total">Total: $9.000</div>
+      <button class="finalizar">✅ Finalizar Venta</button>
     </section>
 
-    <section>
-      <h2>📜 Historial de Ventas</h2>
-      <ul id="historial"></ul>
-      <div class="total" id="totalVentasDelDia">Total del día: $0.00</div>
-
-    </section>
-
-    <section>
-      <h2>➕ Agregar Producto al Inventario</h2>
-      <input type="text" id="nuevoNombre" placeholder="Nombre del producto" />
-      <input type="number" id="nuevoPrecio" placeholder="Precio por kg" step="0.01" />
-      <input type="number" id="nuevoStock" placeholder="Stock inicial (kg)" step="0.01" />
-      <button onclick="agregarProductoInventario()">✅ Guardar Producto</button>
+    <section class="tarjeta">
+      <h2>🧾 Historial de Ventas</h2>
+      <ul id="historialVentas">
+        <li>8/7/2025 - Total: $20.000</li>
+        <li>8/7/2025 - Total: $26.250</li>
+      </ul>
+      <div class="total-dia">Total del día: $46.250</div>
     </section>
   </main>
-<script>
-  let inventario = [];
-  let carrito = [];
-  let historial = [];
-  const formatoMoneda = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
 
-  function guardarLocal() {
-    localStorage.setItem('pos_inventario', JSON.stringify(inventario));
-    localStorage.setItem('pos_historial', JSON.stringify(historial));
-  }
+  <footer>
+    <p>Mi Tienda POS v1.0 — Hecho con 💚 en Colombia</p>
+  </footer>
 
-  function cargarLocal() {
-    const inv = localStorage.getItem('pos_inventario');
-    const hist = localStorage.getItem('pos_historial');
-
-    if (inv) {
-      inventario = JSON.parse(inv);
-    } else {
-      inventario = [
-        { nombre: "Manzana", precio: 3500, stock: 50 },
-        { nombre: "Plátano", precio: 2000, stock: 40 },
-        { nombre: "Carne", precio: 10000, stock: 30 }
-      ];
-    }
-
-    historial = hist ? JSON.parse(hist) : [];
-  }
-
-  function actualizarInventario() {
-    const tbody = document.querySelector('#inventarioTabla tbody');
-    const select = document.getElementById('selectProducto');
-    tbody.innerHTML = '';
-    select.innerHTML = '';
-
-    inventario.forEach((item, index) => {
-      tbody.insertAdjacentHTML('beforeend', `
-        <tr>
-          <td>${item.nombre}</td>
-          <td>${formatoMoneda.format(item.precio)}</td>
-          <td>${item.stock.toFixed(2)} kg</td>
-          <td>
-            <button onclick="editarProducto(${index})">✏️ Editar</button>
-            <button onclick="eliminarProducto(${index})">🗑️ Eliminar</button>
-          </td>
-        </tr>
-      `);
-      const option = document.createElement('option');
-      option.value = item.nombre;
-      option.textContent = `${item.nombre} - ${formatoMoneda.format(item.precio)}/kg`;
-      select.appendChild(option);
+  <script>
+    document.getElementById('toggleModo').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
     });
-  }
-
-  function agregarAlCarrito() {
-    const nombre = document.getElementById('selectProducto').value;
-    const peso = parseFloat(document.getElementById('peso').value);
-
-    if (!nombre || isNaN(peso) || peso <= 0) {
-      alert('Por favor, completa los campos correctamente.');
-      return;
-    }
-
-    const producto = inventario.find(p => p.nombre === nombre);
-    if (!producto || producto.stock < peso) {
-      alert('Stock insuficiente.');
-      return;
-    }
-
-    producto.stock -= peso;
-    const subtotal = producto.precio * peso;
-    carrito.push({ nombre, precio: producto.precio, peso, subtotal });
-
-    actualizarInventario();
-    actualizarCarrito();
-    guardarLocal();
-    document.getElementById('peso').value = '';
-  }
-
-  function actualizarCarrito() {
-    const tbody = document.querySelector('#carritoTabla tbody');
-    tbody.innerHTML = '';
-
-    let total = 0;
-    carrito.forEach(item => {
-      total += item.subtotal;
-      tbody.insertAdjacentHTML('beforeend', `
-        <tr class="fade-in">
-          <td>${item.nombre}</td>
-          <td>${item.peso.toFixed(2)} kg</td>
-          <td>${formatoMoneda.format(item.precio)}</td>
-          <td>${formatoMoneda.format(item.subtotal)}</td>
-        </tr>
-      `);
-    });
-
-    document.getElementById('total').textContent = `Total: ${formatoMoneda.format(total)}`;
-  }
-
-  function finalizarVenta() {
-    if (carrito.length === 0) {
-      alert('El carrito está vacío.');
-      return;
-    }
-
-    const totalVenta = carrito.reduce((sum, item) => sum + item.subtotal, 0);
-    const venta = {
-      fecha: new Date().toLocaleString(),
-      total: totalVenta.toFixed(2),
-      items: carrito.slice()
-    };
-
-    historial.push(venta);
-    carrito = [];
-    actualizarCarrito();
-    mostrarHistorial();
-    guardarLocal();
-
-    alert(`✅ Venta completada por ${formatoMoneda.format(totalVenta)}`);
-  }
-function mostrarHistorial() {
-  const historialUl = document.getElementById('historial');
-  const totalVentasDelDia = document.getElementById('totalVentasDelDia');
-  historialUl.innerHTML = '';
-
-  let total = 0;
-  historial.forEach(v => {
-    const li = document.createElement('li');
-    const ventaTotal = parseFloat(v.total);
-    li.textContent = `${v.fecha} - Total: ${formatoMoneda.format(ventaTotal)}`;
-    historialUl.appendChild(li);
-    total += ventaTotal;
-  });
-
-  totalVentasDelDia.textContent = `🧮 Total del día: ${formatoMoneda.format(total)}`;
-  }
-
-  function agregarProductoInventario() {
-    const nombre = document.getElementById('nuevoNombre').value.trim();
-    const precio = parseFloat(document.getElementById('nuevoPrecio').value);
-    const stock = parseFloat(document.getElementById('nuevoStock').value);
-
-    if (!nombre || isNaN(precio) || precio <= 0 || isNaN(stock) || stock <= 0) {
-      alert('Completa todos los campos correctamente.');
-      return;
-    }
-
-    inventario.push({ nombre, precio, stock });
-    guardarLocal();
-    actualizarInventario();
-
-    document.getElementById('nuevoNombre').value = '';
-    document.getElementById('nuevoPrecio').value = '';
-    document.getElementById('nuevoStock').value = '';
-    alert(`✅ Producto "${nombre}" agregado al inventario.`);
-  }
-
-  function editarProducto(index) {
-    const producto = inventario[index];
-    const nuevoNombre = prompt("Nombre del producto:", producto.nombre);
-    const nuevoPrecio = parseFloat(prompt("Precio por kg:", producto.precio));
-    const nuevoStock = parseFloat(prompt("Stock en kg:", producto.stock));
-
-    if (!nuevoNombre || isNaN(nuevoPrecio) || nuevoPrecio <= 0 || isNaN(nuevoStock) || nuevoStock < 0) {
-      alert("❗ Entrada no válida. No se realizaron cambios.");
-      return;
-    }
-
-    inventario[index] = {
-      nombre: nuevoNombre.trim(),
-      precio: nuevoPrecio,
-      stock: nuevoStock
-    };
-
-    guardarLocal();
-    actualizarInventario();
-    alert(`✅ Producto actualizado: ${nuevoNombre}`);
-  }
-
-  function eliminarProducto(index) {
-    if (confirm(`¿Seguro que quieres eliminar "${inventario[index].nombre}" del inventario?`)) {
-      inventario.splice(index, 1);
-      guardarLocal();
-      actualizarInventario();
-      alert(`🗑️ Producto eliminado.`);
-    }
-  }
-
-  function simularBascula() {
-    const pesoAleatorio = (Math.random() * 5 + 0.2).toFixed(2);
-    document.getElementById('peso').value = pesoAleatorio;
-    alert(`⚖️ Báscula simula: ${pesoAleatorio} kg`);
-  }
-
-  cargarLocal();
-  actualizarInventario();
-  mostrarHistorial();
-</script>
+  </script>
 </body>
 </html>
