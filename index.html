@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌿 Mi Tienda POS Pro</title>
+  <title>🌿 Fruver Plaza POS Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -54,12 +54,63 @@
       color: var(--verde-oscuro);
     }
 
-    main {
+    .container {
+      display: flex;
+      height: calc(100vh - 70px);
+    }
+
+    .sidebar {
+      width: 280px;
+      background-color: var(--tarjeta);
+      border-right: 1px solid #ddd;
+      box-shadow: 2px 0 5px var(--sombra);
+      padding: 1rem;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      color: var(--verde-oscuro);
+    }
+
+    .sidebar input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .sidebar button {
+      margin-bottom: 1rem;
+      width: 100%;
+      background-color: var(--verde-claro);
+      color: #fff;
+      border: none;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar button:hover {
+      background-color: var(--verde-hover);
+    }
+
+    .content {
+      flex: 1;
+      padding: 2rem;
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
-      padding: 2rem;
       justify-content: center;
+      overflow-y: auto;
     }
 
     .tarjeta {
@@ -85,19 +136,6 @@
       font-size: 1.3rem;
     }
 
-    input[type="text"] {
-      padding: 0.6rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      width: 100%;
-      transition: border-color 0.3s;
-    }
-
-    input[type="text"]:focus {
-      border-color: var(--verde-claro);
-      outline: none;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -115,28 +153,9 @@
       font-size: 0.95rem;
     }
 
-    button {
-      cursor: pointer;
-    }
-
-    button.agregar, button.finalizar, #btnAgregarProducto, #btnFinalizarVenta {
-      background-color: var(--verde-claro);
-      color: #fff;
-      border: none;
-      padding: 0.75rem;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-
-    button.agregar:hover, button.finalizar:hover,
-    #btnAgregarProducto:hover, #btnFinalizarVenta:hover {
-      background-color: var(--verde-hover);
-    }
-
     .acciones-btn {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.3rem;
       justify-content: center;
     }
 
@@ -144,7 +163,8 @@
       background-color: #eee;
       border: 1px solid #ccc;
       border-radius: 6px;
-      padding: 0.4rem 0.8rem;
+      padding: 0.4rem 0.6rem;
+      cursor: pointer;
       transition: background 0.3s;
     }
 
@@ -166,7 +186,22 @@
       font-size: 0.9rem;
     }
 
-    /* Modo oscuro */
+    .toggle-sidebar {
+      background-color: var(--verde-claro);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 1rem;
+      transition: background 0.3s;
+    }
+
+    .toggle-sidebar:hover {
+      background-color: var(--verde-hover);
+    }
+
     body.dark {
       --verde-oscuro: #bbf7d0;
       --verde-claro: #22c55e;
@@ -180,54 +215,60 @@
 </head>
 <body>
   <header>
-    <h1> Fruver Plaza</h1>
+    <div>
+      <button class="toggle-sidebar" id="btnToggleSidebar">📦 Inventario</button>
+      <h1>Fruver Plaza POS Pro</h1>
+    </div>
     <button id="toggleModo">🌙 Modo Oscuro</button>
   </header>
 
-  <main>
-    <section class="tarjeta">
+  <div class="container">
+    <aside class="sidebar hidden" id="sidebar">
       <h2>📦 Inventario</h2>
       <input type="text" id="buscador" placeholder="🔍 Buscar producto">
       <table>
         <thead>
-          <tr><th>Producto</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+          <tr><th>Código</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
         </thead>
         <tbody id="inventario"></tbody>
       </table>
       <button id="btnAgregarProducto">➕ Agregar Producto</button>
-    </section>
+    </aside>
 
-    <section class="tarjeta">
-      <h2>🛒 Carrito</h2>
-      <table>
-        <thead>
-          <tr><th>Producto</th><th>Peso (kg)</th><th>Precio</th><th>Subtotal</th></tr>
-        </thead>
-        <tbody id="carrito"></tbody>
-      </table>
-      <div class="total" id="resumenCarrito">
-  <div>Subtotal: $0</div>
-  <div>IVA (19%): $0</div>
-  <div><strong>Total con IVA: $0</strong></div>
-</div>
-<button id="btnFinalizarVenta">✅ Finalizar Venta</button>
-    </section>
+    <main class="content">
+      <section class="tarjeta">
+        <h2>🛒 Carrito</h2>
+        <table>
+          <thead>
+            <tr><th>Producto</th><th>Peso (kg)</th><th>Precio</th><th>Subtotal</th></tr>
+          </thead>
+          <tbody id="carrito"></tbody>
+        </table>
+        <div class="total" id="totalCarrito">Total: $0</div>
+        <button id="btnFinalizarVenta">✅ Finalizar Venta</button>
+      </section>
 
-    <section class="tarjeta">
-      <h2>🧾 Historial de Ventas</h2>
-      <ul id="historialVentas"></ul>
-      <div class="total-dia" id="totalDia">Total del día: $0</div>
-    </section>
-  </main>
+      <section class="tarjeta">
+        <h2>🧾 Historial de Ventas</h2>
+        <ul id="historialVentas"></ul>
+        <div class="total-dia" id="totalDia">Total del día: $0</div>
+      </section>
+    </main>
+  </div>
 
   <footer>
-    <p>Mi Tienda POS v1.0 — Hecho con 💚 en Colombia</p>
+    <p>Fruver Plaza POS v1.0 — Hecho con 💚 en Colombia</p>
   </footer>
 
   <script>
     let inventario = JSON.parse(localStorage.getItem('inventario')) || [];
     let carrito = [];
     let historial = JSON.parse(localStorage.getItem('historial')) || [];
+
+    const sidebar = document.getElementById('sidebar');
+    document.getElementById('btnToggleSidebar').addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+    });
 
     function guardarInventario() {
       localStorage.setItem('inventario', JSON.stringify(inventario));
@@ -243,6 +284,7 @@
       inventario.forEach((item, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
+          <td>${item.codigo}</td>
           <td>${item.nombre}</td>
           <td>$${item.precio.toLocaleString()}</td>
           <td>${item.stock}kg</td>
@@ -255,51 +297,40 @@
       });
       guardarInventario();
     }
-function actualizarCarrito() {
-  const tbody = document.getElementById('carrito');
-  tbody.innerHTML = '';
-  let subtotal = 0;
-  carrito.forEach((item, index) => {
-    const sub = item.peso * item.precio;
-    subtotal += sub;
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${item.nombre}</td>
-      <td>${item.peso}kg</td>
-      <td>$${item.precio.toLocaleString()}</td>
-      <td>$${sub.toLocaleString()}</td>
-      <td><button onclick="eliminarDelCarrito(${index})">🗑️</button></td>`;
-    tbody.appendChild(row);
-  });
 
-  const iva = subtotal * 0.19;
-  const total = subtotal + iva;
-
-  const resumen = document.getElementById('resumenCarrito');
-  resumen.innerHTML = `
-    <div>Subtotal: $${subtotal.toLocaleString()}</div>
-    <div>IVA (19%): $${iva.toLocaleString()}</div>
-    <div><strong>Total con IVA: $${total.toLocaleString()}</strong></div>
-  `;
-}
-
-    function eliminarDelCarrito(index) {
-  if (confirm("¿Estás seguro de eliminar este producto del carrito?")) {
-    const itemEliminado = carrito[index];
-
-    // Devolver peso al stock en inventario
-    const productoOriginal = inventario.find(p => p.nombre === itemEliminado.nombre);
-    if (productoOriginal) {
-      productoOriginal.stock += itemEliminado.peso;
+    function actualizarCarrito() {
+      const tbody = document.getElementById('carrito');
+      tbody.innerHTML = '';
+      let total = 0;
+      carrito.forEach((item, index) => {
+        const sub = item.peso * item.precio;
+        total += sub;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.nombre}</td>
+          <td>${item.peso}kg</td>
+          <td>$${item.precio.toLocaleString()}</td>
+          <td>$${sub.toLocaleString()}</td>
+          <td><button onclick="eliminarDelCarrito(${index})">🗑️</button></td>`;
+        tbody.appendChild(row);
+      });
+      document.getElementById('totalCarrito').textContent = `Total: $${total.toLocaleString()}`;
     }
 
-    carrito.splice(index, 1);
-    actualizarCarrito();
-    actualizarInventario();
-  }
-}
+    function eliminarDelCarrito(index) {
+      if (confirm("¿Estás seguro de eliminar este producto del carrito?")) {
+        const itemEliminado = carrito[index];
+        const productoOriginal = inventario.find(p => p.nombre === itemEliminado.nombre);
+        if (productoOriginal) {
+          productoOriginal.stock += itemEliminado.peso;
+        }
+        carrito.splice(index, 1);
+        actualizarCarrito();
+        actualizarInventario();
+      }
+    }
 
- function actualizarHistorial() {
+    function actualizarHistorial() {
       const ul = document.getElementById('historialVentas');
       ul.innerHTML = '';
       let totalDia = 0;
@@ -313,22 +344,30 @@ function actualizarCarrito() {
     }
 
     function agregarProducto() {
+      const codigo = prompt('Código único del producto:');
+      if (!codigo) return;
+
       const nombre = prompt('Nombre del producto:');
+      if (!nombre) return;
+
       const precio = parseFloat(prompt('Precio por kg:'));
+      if (isNaN(precio)) return alert('Precio inválido.');
+
       const stock = parseFloat(prompt('Stock en kg:'));
-      if (nombre && !isNaN(precio) && !isNaN(stock)) {
-        inventario.push({ nombre, precio, stock });
-        actualizarInventario();
-      }
+      if (isNaN(stock)) return alert('Stock inválido.');
+
+      inventario.push({ codigo, nombre, precio, stock });
+      actualizarInventario();
     }
 
     function editarProducto(index) {
       const item = inventario[index];
-      const nombre = prompt('Nuevo nombre:', item.nombre);
+      const codigo = prompt('Nuevo código:', item.codigo) || item.codigo;
+      const nombre = prompt('Nuevo nombre:', item.nombre) || item.nombre;
       const precio = parseFloat(prompt('Nuevo precio por kg:', item.precio));
       const stock = parseFloat(prompt('Nuevo stock en kg:', item.stock));
-      if (nombre && !isNaN(precio) && !isNaN(stock)) {
-        inventario[index] = { nombre, precio, stock };
+      if (!isNaN(precio) && !isNaN(stock)) {
+        inventario[index] = { codigo, nombre, precio, stock };
         actualizarInventario();
       }
     }
@@ -358,9 +397,8 @@ function actualizarCarrito() {
         alert('El carrito está vacío.');
         return;
       }
-     const subtotal = carrito.reduce((sum, item) => sum + item.peso * item.precio, 0);
-const total = subtotal + subtotal * 0.19;
-const fecha = new Date().toLocaleDateString();
+      const total = carrito.reduce((sum, item) => sum + item.peso * item.precio, 0);
+      const fecha = new Date().toLocaleDateString();
       historial.push({ fecha, total });
       guardarHistorial();
       carrito = [];
@@ -379,7 +417,7 @@ const fecha = new Date().toLocaleDateString();
     document.getElementById('buscador').addEventListener('input', e => {
       const filtro = e.target.value.toLowerCase();
       document.querySelectorAll('#inventario tr').forEach(row => {
-        row.style.display = row.cells[0].textContent.toLowerCase().includes(filtro) ? '' : 'none';
+        row.style.display = row.cells[1].textContent.toLowerCase().includes(filtro) ? '' : 'none';
       });
     });
 
