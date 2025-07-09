@@ -1,92 +1,195 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>POS Futuro - Mejor que SAEC 4.3</title>
+  <title>POS Verde Premium 🌿</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --verde: #28a745;
+      --verde-claro: #a9dfbf;
+      --verde-hover: #218838;
+      --gris-fondo: #f5f7f6;
+      --gris-card: #ffffff;
+      --gris-texto: #333333;
+      --sombra: rgba(0, 0, 0, 0.08);
+      --borde: #e1e1e1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #f2f2f2;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
     }
+
     header {
-      background-color: #007bff;
+      background-color: var(--verde);
       color: white;
-      padding: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1.8rem;
       text-align: center;
-      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px var(--sombra);
+      letter-spacing: 0.5px;
     }
+
     main {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 1rem;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
+
     section {
-      background: white;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      flex: 1 1 300px;
+      background-color: var(--gris-card);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 16px var(--sombra);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px var(--sombra);
+    }
+
     h2 {
       margin-top: 0;
-      color: #007bff;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      color: var(--verde);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--verde-claro);
+      padding-bottom: 0.3rem;
     }
-    input, button, select {
+
+    input, select {
       width: 100%;
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      border-radius: 0.3rem;
-      border: 1px solid #ccc;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--borde);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      background-color: #fafafa;
+      transition: border-color 0.2s;
     }
+
+    input:focus, select:focus {
+      border-color: var(--verde);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: var(--verde);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--verde-hover);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 0.95rem;
       margin-top: 0.5rem;
     }
+
     th, td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
+      border: 1px solid var(--borde);
+      padding: 0.7rem;
       text-align: left;
     }
+
     th {
-      background-color: #007bff;
+      background-color: var(--verde);
       color: white;
     }
+
     .total {
-      font-size: 1.2rem;
-      font-weight: bold;
       text-align: right;
-      margin-top: 0.5rem;
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: var(--verde);
     }
-    .button-primary {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
+
+    ul {
+      padding-left: 1rem;
     }
-    .button-primary:hover {
-      background-color: #0056b3;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h2::before {
+      content: '🌿';
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
   <header>
-    Sistema POS Futuro 🚀
+    🌿 Punto de Venta Verde Premium
   </header>
   <main>
     <section>
-      <h2>Agregar Producto</h2>
-      <input type="text" id="producto" placeholder="Nombre del producto" />
-      <input type="number" id="precio" placeholder="Precio unitario" />
-      <input type="number" id="peso" placeholder="Peso (kg)" />
-      <button class="button-primary" onclick="agregarProducto()">Agregar al Carrito</button>
-      <button onclick="simularBascula()">📦 Simular Báscula</button>
+      <h2>📦 Inventario Disponible</h2>
+      <table id="inventarioTabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Stock (kg)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
 
     <section>
-      <h2>Carrito de Compras</h2>
+      <h2>🛒 Agregar al Carrito</h2>
+      <select id="selectProducto"></select>
+      <input type="number" id="peso" placeholder="Peso (kg)" min="0.01" step="0.01" />
+      <button onclick="agregarAlCarrito()">➕ Agregar</button>
+      <button onclick="simularBascula()">⚖️ Simular Báscula</button>
+    </section>
+
+    <section>
+      <h2>🧾 Carrito Actual</h2>
       <table id="carritoTabla">
         <thead>
           <tr>
@@ -99,92 +202,148 @@
         <tbody></tbody>
       </table>
       <div class="total" id="total">Total: $0.00</div>
-      <button class="button-primary" onclick="finalizarVenta()">💰 Finalizar Venta</button>
+      <button onclick="finalizarVenta()">💰 Finalizar Venta</button>
     </section>
 
     <section>
-      <h2>Historial de Ventas</h2>
+      <h2>📜 Historial de Ventas</h2>
       <ul id="historial"></ul>
     </section>
   </main>
+<script>
+  let inventario = [];
+  let carrito = [];
+  let historial = [];
 
-  <script>
-    let carrito = [];
-    let historial = [];
+  function guardarLocal() {
+    localStorage.setItem('pos_inventario', JSON.stringify(inventario));
+    localStorage.setItem('pos_historial', JSON.stringify(historial));
+  }
 
-    function agregarProducto() {
-      const producto = document.getElementById('producto').value.trim();
-      const precio = parseFloat(document.getElementById('precio').value);
-      const peso = parseFloat(document.getElementById('peso').value);
+  function cargarLocal() {
+    const inv = localStorage.getItem('pos_inventario');
+    const hist = localStorage.getItem('pos_historial');
 
-      if (!producto || isNaN(precio) || isNaN(peso)) {
-        alert('Completa todos los campos.');
-        return;
-      }
-
-      const subtotal = precio * peso;
-      carrito.push({ producto, precio, peso, subtotal });
-      actualizarCarrito();
-      limpiarFormulario();
+    if (inv) {
+      inventario = JSON.parse(inv);
+    } else {
+      inventario = [
+        { nombre: "Manzana", precio: 3.5, stock: 50 },
+        { nombre: "Plátano", precio: 2.0, stock: 40 },
+        { nombre: "Carne", precio: 10.0, stock: 30 }
+      ];
     }
 
-    function actualizarCarrito() {
-      const tbody = document.querySelector('#carritoTabla tbody');
-      tbody.innerHTML = '';
+    historial = hist ? JSON.parse(hist) : [];
+  }
 
-      let total = 0;
-      carrito.forEach(item => {
-        total += item.subtotal;
-        const row = `<tr>
-          <td>${item.producto}</td>
+  function actualizarInventario() {
+    const tbody = document.querySelector('#inventarioTabla tbody');
+    const select = document.getElementById('selectProducto');
+    tbody.innerHTML = '';
+    select.innerHTML = '';
+
+    inventario.forEach(item => {
+      tbody.insertAdjacentHTML('beforeend', `
+        <tr>
+          <td>${item.nombre}</td>
+          <td>$${item.precio.toFixed(2)}</td>
+          <td>${item.stock.toFixed(2)} kg</td>
+        </tr>
+      `);
+      const option = document.createElement('option');
+      option.value = item.nombre;
+      option.textContent = `${item.nombre} - $${item.precio.toFixed(2)}/kg`;
+      select.appendChild(option);
+    });
+  }
+
+  function agregarAlCarrito() {
+    const nombre = document.getElementById('selectProducto').value;
+    const peso = parseFloat(document.getElementById('peso').value);
+
+    if (!nombre || isNaN(peso) || peso <= 0) {
+      alert('Por favor, completa los campos correctamente.');
+      return;
+    }
+
+    const producto = inventario.find(p => p.nombre === nombre);
+    if (!producto || producto.stock < peso) {
+      alert('Stock insuficiente.');
+      return;
+    }
+
+    producto.stock -= peso;
+    const subtotal = producto.precio * peso;
+    carrito.push({ nombre, precio: producto.precio, peso, subtotal });
+
+    actualizarInventario();
+    actualizarCarrito();
+    guardarLocal();
+    document.getElementById('peso').value = '';
+  }
+
+  function actualizarCarrito() {
+    const tbody = document.querySelector('#carritoTabla tbody');
+    tbody.innerHTML = '';
+
+    let total = 0;
+    carrito.forEach(item => {
+      total += item.subtotal;
+      tbody.insertAdjacentHTML('beforeend', `
+        <tr class="fade-in">
+          <td>${item.nombre}</td>
           <td>${item.peso.toFixed(2)} kg</td>
           <td>$${item.precio.toFixed(2)}</td>
           <td>$${item.subtotal.toFixed(2)}</td>
-        </tr>`;
-        tbody.insertAdjacentHTML('beforeend', row);
-      });
+        </tr>
+      `);
+    });
 
-      document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+    document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+  }
+
+  function finalizarVenta() {
+    if (carrito.length === 0) {
+      alert('El carrito está vacío.');
+      return;
     }
 
-    function limpiarFormulario() {
-      document.getElementById('producto').value = '';
-      document.getElementById('precio').value = '';
-      document.getElementById('peso').value = '';
-    }
+    const totalVenta = carrito.reduce((sum, item) => sum + item.subtotal, 0);
+    const venta = {
+      fecha: new Date().toLocaleString(),
+      total: totalVenta.toFixed(2),
+      items: carrito.slice()
+    };
 
-    function finalizarVenta() {
-      if (carrito.length === 0) {
-        alert('El carrito está vacío.');
-        return;
-      }
+    historial.push(venta);
+    carrito = [];
+    actualizarCarrito();
+    mostrarHistorial();
+    guardarLocal();
 
-      const totalVenta = carrito.reduce((sum, item) => sum + item.subtotal, 0);
-      const venta = { fecha: new Date().toLocaleString(), total: totalVenta.toFixed(2), items: carrito.slice() };
-      historial.push(venta);
+    alert(`✅ Venta completada por $${totalVenta.toFixed(2)}`);
+  }
 
-      carrito = [];
-      actualizarCarrito();
-      mostrarHistorial();
+  function mostrarHistorial() {
+    const historialUl = document.getElementById('historial');
+    historialUl.innerHTML = '';
+    historial.forEach(v => {
+      const li = document.createElement('li');
+      li.textContent = `${v.fecha} - Total: $${v.total}`;
+      historialUl.appendChild(li);
+    });
+  }
 
-      alert(`Venta completada. Total: $${totalVenta.toFixed(2)}`);
-    }
+  function simularBascula() {
+    const pesoAleatorio = (Math.random() * 5 + 0.2).toFixed(2);
+    document.getElementById('peso').value = pesoAleatorio;
+    alert(`⚖️ Báscula simula: ${pesoAleatorio} kg`);
+  }
 
-    function mostrarHistorial() {
-      const historialUl = document.getElementById('historial');
-      historialUl.innerHTML = '';
-      historial.forEach(v => {
-        const li = document.createElement('li');
-        li.textContent = `${v.fecha} - Total: $${v.total}`;
-        historialUl.appendChild(li);
-      });
-    }
-
-    function simularBascula() {
-      const pesoAleatorio = (Math.random() * 5 + 0.2).toFixed(2);
-      document.getElementById('peso').value = pesoAleatorio;
-      alert(`Simulado: Báscula envía ${pesoAleatorio} kg`);
-    }
-  </script>
+  cargarLocal();
+  actualizarInventario();
+  mostrarHistorial();
+</script>
 </body>
 </html>
