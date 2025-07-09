@@ -258,21 +258,31 @@
 function actualizarCarrito() {
   const tbody = document.getElementById('carrito');
   tbody.innerHTML = '';
-  let total = 0;
+  let subtotal = 0;
   carrito.forEach((item, index) => {
-    const subtotal = item.peso * item.precio;
-    total += subtotal;
+    const sub = item.peso * item.precio;
+    subtotal += sub;
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${item.nombre}</td>
       <td>${item.peso}kg</td>
       <td>$${item.precio.toLocaleString()}</td>
-      <td>$${subtotal.toLocaleString()}</td>
+      <td>$${sub.toLocaleString()}</td>
       <td><button onclick="eliminarDelCarrito(${index})">🗑️</button></td>`;
     tbody.appendChild(row);
   });
-  document.getElementById('totalCarrito').textContent = `Total: $${total.toLocaleString()}`;
+
+  const iva = subtotal * 0.19;
+  const total = subtotal + iva;
+
+  const resumen = document.getElementById('resumenCarrito');
+  resumen.innerHTML = `
+    <div>Subtotal: $${subtotal.toLocaleString()}</div>
+    <div>IVA (19%): $${iva.toLocaleString()}</div>
+    <div><strong>Total con IVA: $${total.toLocaleString()}</strong></div>
+  `;
 }
+
     function eliminarDelCarrito(index) {
   if (confirm("¿Estás seguro de eliminar este producto del carrito?")) {
     const itemEliminado = carrito[index];
@@ -348,8 +358,9 @@ function actualizarCarrito() {
         alert('El carrito está vacío.');
         return;
       }
-      const total = carrito.reduce((sum, item) => sum + item.peso * item.precio, 0);
-      const fecha = new Date().toLocaleDateString();
+     const subtotal = carrito.reduce((sum, item) => sum + item.peso * item.precio, 0);
+const total = subtotal + subtotal * 0.19;
+const fecha = new Date().toLocaleDateString();
       historial.push({ fecha, total });
       guardarHistorial();
       carrito = [];
