@@ -215,6 +215,7 @@
   let inventario = [];
   let carrito = [];
   let historial = [];
+  const formatoMoneda = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
 
   function guardarLocal() {
     localStorage.setItem('pos_inventario', JSON.stringify(inventario));
@@ -229,9 +230,9 @@
       inventario = JSON.parse(inv);
     } else {
       inventario = [
-        { nombre: "Manzana", precio: 3.5, stock: 50 },
-        { nombre: "Plátano", precio: 2.0, stock: 40 },
-        { nombre: "Carne", precio: 10.0, stock: 30 }
+        { nombre: "Manzana", precio: 3500, stock: 50 },
+        { nombre: "Plátano", precio: 2000, stock: 40 },
+        { nombre: "Carne", precio: 10000, stock: 30 }
       ];
     }
 
@@ -248,7 +249,7 @@
       tbody.insertAdjacentHTML('beforeend', `
         <tr>
           <td>${item.nombre}</td>
-          <td>$${item.precio.toFixed(2)}</td>
+          <td>${formatoMoneda.format(item.precio)}</td>
           <td>${item.stock.toFixed(2)} kg</td>
           <td>
             <button onclick="editarProducto(${index})">✏️ Editar</button>
@@ -258,7 +259,7 @@
       `);
       const option = document.createElement('option');
       option.value = item.nombre;
-      option.textContent = `${item.nombre} - $${item.precio.toFixed(2)}/kg`;
+      option.textContent = `${item.nombre} - ${formatoMoneda.format(item.precio)}/kg`;
       select.appendChild(option);
     });
   }
@@ -299,13 +300,13 @@
         <tr class="fade-in">
           <td>${item.nombre}</td>
           <td>${item.peso.toFixed(2)} kg</td>
-          <td>$${item.precio.toFixed(2)}</td>
-          <td>$${item.subtotal.toFixed(2)}</td>
+          <td>${formatoMoneda.format(item.precio)}</td>
+          <td>${formatoMoneda.format(item.subtotal)}</td>
         </tr>
       `);
     });
 
-    document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+    document.getElementById('total').textContent = `Total: ${formatoMoneda.format(total)}`;
   }
 
   function finalizarVenta() {
@@ -327,7 +328,7 @@
     mostrarHistorial();
     guardarLocal();
 
-    alert(`✅ Venta completada por $${totalVenta.toFixed(2)}`);
+    alert(`✅ Venta completada por ${formatoMoneda.format(totalVenta)}`);
   }
 
   function mostrarHistorial() {
@@ -335,7 +336,7 @@
     historialUl.innerHTML = '';
     historial.forEach(v => {
       const li = document.createElement('li');
-      li.textContent = `${v.fecha} - Total: $${v.total}`;
+      li.textContent = `${v.fecha} - Total: ${formatoMoneda.format(v.total)}`;
       historialUl.appendChild(li);
     });
   }
