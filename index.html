@@ -269,6 +269,22 @@ function actualizarCarrito() {
   });
   document.getElementById('totalCarrito').textContent = `Total: $${total.toLocaleString()}`;
 }
+    function eliminarDelCarrito(index) {
+  if (confirm("¿Estás seguro de eliminar este producto del carrito?")) {
+    const itemEliminado = carrito[index];
+
+    // Devolver peso al stock en inventario
+    const productoOriginal = inventario.find(p => p.nombre === itemEliminado.nombre);
+    if (productoOriginal) {
+      productoOriginal.stock += itemEliminado.peso;
+    }
+
+    carrito.splice(index, 1);
+    actualizarCarrito();
+    actualizarInventario();
+  }
+}
+
  function actualizarHistorial() {
       const ul = document.getElementById('historialVentas');
       ul.innerHTML = '';
