@@ -52,6 +52,176 @@
   <script src="app.js"></script>
 </body>
 </html>
+:root {
+  --verde-oscuro: #006400;
+  --verde-claro: #4CAF50;
+  --verde-hover: #388e3c;
+  --gris-fondo: #f9f9f9;
+  --texto: #333;
+  --tarjeta: #fff;
+  --sombra: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  background-color: var(--gris-fondo);
+  color: var(--texto);
+  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--verde-oscuro);
+  color: #fff;
+  padding: 1rem 2rem;
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+header button {
+  background: none;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+header button:hover {
+  background-color: #fff;
+  color: var(--verde-oscuro);
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  justify-content: center;
+}
+
+.tarjeta {
+  background-color: var(--tarjeta);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px var(--sombra);
+  max-width: 400px;
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 1rem;
+  transition: transform 0.2s;
+}
+
+.tarjeta:hover {
+  transform: translateY(-2px);
+}
+
+.tarjeta h2 {
+  margin: 0;
+  color: var(--verde-oscuro);
+  font-size: 1.3rem;
+}
+
+input[type="text"] {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--verde-claro);
+  outline: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: var(--verde-claro);
+  color: #fff;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.agregar, button.finalizar, #btnAgregarProducto, #btnFinalizarVenta {
+  background-color: var(--verde-claro);
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+button.agregar:hover, button.finalizar:hover,
+#btnAgregarProducto:hover, #btnFinalizarVenta:hover {
+  background-color: var(--verde-hover);
+}
+
+.acciones-btn {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.acciones-btn button {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  transition: background 0.3s;
+}
+
+.acciones-btn button:hover {
+  background-color: #ddd;
+}
+
+.total, .total-dia {
+  font-weight: bold;
+  text-align: right;
+  color: var(--verde-oscuro);
+  margin-top: 0.5rem;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #eee;
+  font-size: 0.9rem;
+}
+
+/* Modo oscuro */
+body.dark {
+  --verde-oscuro: #bbf7d0;
+  --verde-claro: #22c55e;
+  --verde-hover: #16a34a;
+  --gris-fondo: #1a1a1a;
+  --texto: #eee;
+  --tarjeta: #2c2c2c;
+  --sombra: rgba(255, 255, 255, 0.1);
+}
 // 🌿 Datos en LocalStorage
 let inventario = JSON.parse(localStorage.getItem('inventario')) || [];
 let carrito = [];
